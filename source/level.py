@@ -9,7 +9,7 @@ from source.enemy import Enemy
 from source.upgrade import *
 
 
-class Level:
+class Level():
     def __init__(self) :
         # get display surface
         self.display_surface = pygame.display.get_surface()
