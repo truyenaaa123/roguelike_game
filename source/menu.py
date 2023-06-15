@@ -10,8 +10,10 @@ class Menu():
 
         self.SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         pygame.display.set_caption("Menu")
-
         self.BG = pygame.image.load("texture/Background.png")
+        pygame.mixer.music.load("sound/menu.mp3")
+        pygame.mixer.music.play(-1)
+        self.is_menu_music = True
 
     def get_font(self, size): # Returns Press-Start-2P in the desired size
         return pygame.font.Font("texture/font.ttf", size)
@@ -44,11 +46,17 @@ class Menu():
                     sys.exit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if PLAY_BUTTON.checkForInput(MENU_MOUSE_POS):
+                        pygame.mixer.music.load("sound/in_game.mp3")
+                        pygame.mixer.music.play(-1)
+                        self.is_menu_music = False
                         game_instance = source.game.Game()
                         game_instance.run_game()
                         if game_instance.level.is_back:
                             self.main_menu()
                     if OPTIONS_BUTTON.checkForInput(MENU_MOUSE_POS):
+                        pygame.mixer.music.load("sound/in_game.mp3")
+                        pygame.mixer.music.play(-1)
+                        self.is_menu_music = False
                         game_instance = source.game.Game()
                         game_instance.level.is_challenger_mode = True
                         game_instance.level.reset()
@@ -58,4 +66,9 @@ class Menu():
                     if QUIT_BUTTON.checkForInput(MENU_MOUSE_POS):
                         pygame.quit()
                         sys.exit()
+            if not(self.is_menu_music):
+                pygame.mixer.music.load("sound/menu.mp3")
+                pygame.mixer.music.play(-1)
+                self.is_menu_music = True
+                    
             pygame.display.update()
