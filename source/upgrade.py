@@ -3,12 +3,12 @@ from source.settings import*
 import random
 
 class Upgrade():
-    def __init__(self, player):
+    def __init__(self, player, is_challenger_mode):
         self.display_surface = pygame.display.get_surface()
         self.player = player
         self.font = pygame.font.Font(UI_FONT, UI_FONT_SIZE)
-        self.attribute_nr = 3
-        self.attribute_pool = list(skill_data.keys())*8
+        self.attribute_pool = list(skill_data.keys())*8 * int(not(is_challenger_mode))
+        self.attribute_nr = min(len(self.attribute_pool), 3)
         self.attribute_pool_set = set(self.attribute_pool)
         self.random_skill_list = random.sample(list(self.attribute_pool_set), self.attribute_nr)
 

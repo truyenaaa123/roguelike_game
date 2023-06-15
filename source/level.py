@@ -20,17 +20,23 @@ class Level():
         # attack sprite
         self.attack_sprites = pygame.sprite.Group()
         self.attackable_sprites = pygame.sprite.Group()
-
+        # Chế độ challenger mode
+        self.is_challenger_mode = False
         # sprite setup
         self.create_map()
         # user interface
         self.ui = UI()
-        self.upgrade = Upgrade(self.player)
+        self.upgrade = Upgrade(self.player, self.is_challenger_mode)
+        #Quay trờ lại màn hình chờ
+        self.is_back = False
 
     # Tạo bản đồ lần đầu
     def create_map(self):
         self.player = Player((0, 0), [self.visible_sprites], self.obstacle_sprites,
                               self.attack_sprites, PLAYER_PATH)
+        if self.is_challenger_mode:
+            self.player.level = 57
+            self.player.challenger_mode()
         enemy_pos = (self.player.rect.centerx+200, self.player.rect.centery +200)
         # self.enemy = Enemy(enemy_pos, [self.visible_sprites, self.attackable_sprites], self.obstacle_sprites, 'zombie')
         self.enemy = Enemy(enemy_pos, [self.visible_sprites, self.attackable_sprites], self.obstacle_sprites, 'bat')
@@ -68,7 +74,7 @@ class Level():
         self.game_paused = False
         self.create_map()
         self.ui = UI()
-        self.upgrade = Upgrade(self.player)
+        self.upgrade = Upgrade(self.player, self.is_challenger_mode)
 
     def toggle_menu(self):
         if self.player.health <= 0:
@@ -80,9 +86,14 @@ class Level():
             self.display_surface.blit(img, (SCREEN_WIDTH//2 - 75,SCREEN_HEIGHT//2 + 40))
             img = font.render("PRESS SPACE TO PLAY AGAIN", True, TEXT_COLOR)
             self.display_surface.blit(img, (SCREEN_WIDTH//2 - 130,SCREEN_HEIGHT//2 + 60))
+            img = font.render("PRESS Q KEY TO BACK MENU", True, TEXT_COLOR)
+            self.display_surface.blit(img, (SCREEN_WIDTH//2 - 130,SCREEN_HEIGHT//2 + 80))
             key = pygame.key.get_pressed()
             if key[pygame.K_SPACE]:
                 self.reset()
+            elif key[pygame.K_q]:
+                self.is_back = True
+                
 
         elif self.player.is_levelup and self.player.level <= 56:
             pygame.mixer.Sound("sound/levelup.mp3").play()

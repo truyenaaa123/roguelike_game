@@ -9,7 +9,7 @@ class Game:
         # General setting
         pygame.init()
         pygame.mixer.init()
-        pygame.display.set_caption("Element")
+        pygame.display.set_caption("Roguelike Game")
 
         self.display = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.screen = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT)).convert()
@@ -17,6 +17,7 @@ class Game:
         self.is_running = True
         self.fps = FPS
         self.level = Level()
+        self.back = False
         
 
     def run_game(self):
@@ -31,6 +32,9 @@ class Game:
             self.display.blit(self.screen, (0,0))
             self.screen.fill((0,0,0))
             self.level.run()
+            self.back = self.level.is_back
+            if self.level.is_back:
+                break
             self.clock.tick(self.fps)
 
 if __name__ == "__main__":

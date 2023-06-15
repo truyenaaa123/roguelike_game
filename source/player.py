@@ -161,10 +161,22 @@ class Player(Entity):
             self.vaccum_item += skill_data[self.upgrade_select]
         elif self.upgrade_select == 'health':
             self.stats['health'] += skill_data[self.upgrade_select]
+            self.health += skill_data[self.upgrade_select]
         elif self.upgrade_select == 'speed':
             self.speed += skill_data[self.upgrade_select]
         elif self.upgrade_select == 'attack_speed':
             self.attack_speed -= skill_data[self.upgrade_select]
+    
+    # Chế độ Challenger
+    def challenger_mode(self):
+        self.num_fireball += skill_data['fireball'] * 8
+        self.num_boomerang += skill_data['boomerang'] * 8
+        self.damage += skill_data['damage'] * 8
+        self.vaccum_item += skill_data['vaccum'] * 8
+        self.stats['health'] += skill_data['health'] * 8
+        self.health += skill_data['health'] * 8
+        self.speed += skill_data['speed'] * 8
+        self.attack_speed -= skill_data['attack_speed'] * 8
 
     # Timer
     def timer(self):

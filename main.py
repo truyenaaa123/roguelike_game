@@ -1,9 +1,9 @@
-import source.game
+import source.menu
 
 
 def main():
-    game_instance = source.game.Game()
-    game_instance.run_game()
+    game_instance = source.menu.Menu()
+    game_instance.main_menu()
 
 
 if __name__ == "__main__":
